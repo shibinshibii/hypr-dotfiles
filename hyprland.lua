@@ -87,6 +87,12 @@ hl.config({
             outer_padding_left = 32,
             row_spacing = 32,
             column_spacing = 32,
+
+            -- Workspace strip and bar
+            workspace_strip_thickness = 190,
+
+            --hide searchbar
+            pick_labels_enabled = 1,
         },
     },
 })
