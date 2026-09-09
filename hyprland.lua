@@ -90,6 +90,8 @@ hl.config({
 
             -- Workspace strip and bar
             workspace_strip_thickness = 190,
+            workspace_strip_anchor = "top",
+
 
             --hide searchbar
             pick_labels_enabled = 1,
