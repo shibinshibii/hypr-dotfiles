@@ -73,6 +73,7 @@ hl.window_rule({ match = { class = "^io\\.missioncenter\\.MissionCenter$" },    
 hl.window_rule({ match = { class = "^io\\.github\\.flattool\\.Warehouse$" },                   opacity = 1.0 })
 hl.window_rule({ match = { class = "^chrome-music.apple.com__-Default$" },float = true, size = "1200 840", opacity = 0.85, rounding =20 })
 hl.window_rule({ match = { class = "^com.gabm.satty$" },float = true, size = "1200 840",rounding =20 })
+hl.window_rule({ match= { class = "cursor$"}, opacity = 0.95})
 -- Misc rules
 hl.window_rule({ match = { class = "^.*jetbrains.*$", title = "^win[0-9]+$" }, no_initial_focus = true })
 
