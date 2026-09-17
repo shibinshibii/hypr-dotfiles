@@ -13,6 +13,7 @@ local KEY = {
 	BROWSER = ("%s + B"):format(mainMod),
 	CHROME = ("%s + C"):format(mainMod),
 	LAUNCHER = ("%s + D"):format(mainMod),
+    CAELESTIA_LAUNCHER = ("%s + X"):format(mainMod),
 	LOCK = ("%s + L"):format(mainMod),
 	SETTINGS = ("%s + T"):format(mainMod),
 	CHEATSHEET_TOGGLE = ("%s + H"):format(mainMod),
@@ -69,6 +70,11 @@ hl.bind(KEY.EDITOR, hl.dsp.exec_cmd(EDITOR), { description = "Code editor" })
 hl.bind(KEY.BROWSER, hl.dsp.exec_cmd(BROWSER), { description = "Brave" })
 hl.bind(KEY.CHROME, hl.dsp.exec_cmd(CHROME), { description = "Chrome" })
 hl.bind(KEY.LAUNCHER, hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"), { description = "Toggle launcher" })
+hl.bind(
+    KEY.CAELESTIA_LAUNCHER,
+    hl.dsp.global("caelestia:launcher"),
+    { description = "Toggle Caelestia launcher" }
+)
 hl.bind(KEY.LOCK, hl.dsp.exec_cmd("noctalia msg screen-lock"), { description = "Lock screen" })
 hl.bind(KEY.SETTINGS, hl.dsp.exec_cmd("noctalia msg settings-toggle"), { description = "Toggle settings" })
 hl.bind(KEY.STEAM, hl.dsp.exec_cmd("steam"), { description = "Steam" })
@@ -218,15 +224,6 @@ if hl.plugin.hymission ~= nil then
     hl.plugin.hymission.toggle("forecall")
 end)
 end
-hl.bind("SUPER + X", function ()
-    if hl.get_workspace("special:minimized") then
-        hl.dispatch(hl.dsp.window.move({ workspace = hl.get_active_workspace(), window = "tag:minimized" }))
-        hl.dispatch(hl.dsp.window.clear_tags({ window = "tag:minimized" }))
-    else
-        hl.dispatch(hl.dsp.window.tag({ tag = "minimized", window = hl.get_active_window() }))
-        hl.dispatch(hl.dsp.window.move({ workspace = "special:minimized", follow = false }))
-    end
-end)
 hl.bind(
     "SUPER + SHIFT + SPACE",
     hl.dsp.window.float({ action = "toggle" }),
