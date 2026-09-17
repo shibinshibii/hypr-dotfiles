@@ -21,6 +21,7 @@ local exec_once = {
     "systemctl --user start --ignore-dependencies xdg-desktop-portal-hyprland.service xdg-desktop-portal.service",
 	"hyprpm reload",
     "noctalia",
+    "caelestia shell -d",
     "sh -c 'sleep 3 && easyeffects --gapplication-service'",
 }
 
