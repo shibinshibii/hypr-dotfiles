@@ -75,7 +75,7 @@ hl.bind(
     hl.dsp.global("caelestia:launcher"),
     { description = "Toggle Caelestia launcher" }
 )
-hl.bind(KEY.LOCK, hl.dsp.exec_cmd("noctalia msg screen-lock"), { description = "Lock screen" })
+hl.bind(KEY.LOCK, hl.dsp.exec_cmd("caelestia shell lock lock"), { description = "Lock screen" })
 hl.bind(KEY.SETTINGS, hl.dsp.exec_cmd("noctalia msg settings-toggle"), { description = "Toggle settings" })
 hl.bind(KEY.STEAM, hl.dsp.exec_cmd("steam"), { description = "Steam" })
 hl.bind(KEY.MUSIC, hl.dsp.exec_cmd("quodlibet"), { description = "Music player" })
