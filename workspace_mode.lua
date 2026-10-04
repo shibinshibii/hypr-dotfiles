@@ -1,4 +1,3 @@
--- ~/.config/hypr/workspace_mode.lua
 
 local modes = {}
 
@@ -205,7 +204,7 @@ hl.bind(
 
         local current_layout = workspace.tiled_layout
         local next_layout
- 
+
         if current_layout == "dwindle" then
             next_layout = "scrolling"
         else
