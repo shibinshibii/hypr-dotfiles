@@ -6,7 +6,7 @@ package.path = table.concat({
 }, ";")
 
 -- Clear cached modules so they re-execute on reload (ensures binds/rules re-register)
-for _, mod in ipairs({"monitors", "inputs", "keybind", "windowrules", "animations", "themes.theme"}) do
+for _, mod in ipairs({"monitors", "inputs", "keybind", "windowrules", "animations", "workspace_mode", "themes.theme"}) do
     package.loaded[mod] = nil
 end
 
@@ -16,6 +16,7 @@ require("inputs")
 require("keybind")
 require("windowrules")
 require("animations")
+require("workspace_mode")
 require("themes.theme")
 local colors = require("noctalia.noctalia-colors")
 hl.config({
@@ -26,7 +27,7 @@ hl.config({
         new_status = "master",
     },
 	scrolling = {
-        fullscreen_on_one_column = true,
+        fullscreen_on_one_column = false,
         column_width = 0.75,
         focus_fit_method = 1,
         follow_focus = true,
@@ -52,8 +53,10 @@ hl.config({
     },
     general = {
 	layout = "scrolling",
-	border_size = 0,
-        col = colors.general.col,
+    gaps_in = 4,
+    border_size = 0,
+    gaps_out = 30,
+    border_size = 0,        col = colors.general.col,
         snap = {
             enabled = true,
         },

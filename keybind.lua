@@ -208,12 +208,58 @@ hl.bind(KEY.MOUSE_DRAG, hl.dsp.window.drag(),   { mouse = true, description = "D
 hl.bind(KEY.MOUSE_RESIZE, hl.dsp.window.resize(), { mouse = true, description = "Resize window" })
 hl.bind(KEY.RESIZE_MODE, hl.dsp.window.resize(), { description = "Resize mode" })
 
--- 10. Media
-hl.bind("XF86AudioPlay",        hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Play or pause" })
-hl.bind("XF86AudioNext",        hl.dsp.exec_cmd("playerctl next"),       { locked = true, description = "Next track" })
-hl.bind("XF86AudioPrev",        hl.dsp.exec_cmd("playerctl previous"),   { locked = true, description = "Previous track" })
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pamixer -i 5"),         { locked = true, description = "Volume up" })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("pamixer -d 5"),         { locked = true, description = "Volume down" })
+-- 10. Media / Hardware Keys
+
+-- Volume
+hl.bind(
+    "XF86AudioRaiseVolume",
+    hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+    { locked = true, repeating = true }
+)
+
+hl.bind(
+    "XF86AudioLowerVolume",
+    hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+    { locked = true, repeating = true }
+)
+
+hl.bind(
+    "XF86AudioMute",
+    hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    { locked = true }
+)
+
+-- Brightness
+hl.bind(
+    "XF86MonBrightnessUp",
+    hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"),
+    { locked = true, repeating = true }
+)
+
+hl.bind(
+    "XF86MonBrightnessDown",
+    hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"),
+    { locked = true, repeating = true }
+)
+
+-- Media
+hl.bind(
+    "XF86AudioPlay",
+    hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true }
+)
+
+hl.bind(
+    "XF86AudioNext",
+    hl.dsp.exec_cmd("playerctl next"),
+    { locked = true }
+)
+
+hl.bind(
+    "XF86AudioPrev",
+    hl.dsp.exec_cmd("playerctl previous"),
+    { locked = true }
+)
 if hl.plugin.hymission ~= nil then
     hl.bind(
         "SUPER + Z",
@@ -224,11 +270,6 @@ if hl.plugin.hymission ~= nil then
     hl.plugin.hymission.toggle("forecall")
 end)
 end
-hl.bind(
-    "SUPER + SHIFT + SPACE",
-    hl.dsp.window.float({ action = "toggle" }),
-    { description = "Toggle floating window" }
-)
 hl.bind(
     "SUPER + S",
     hl.dsp.exec_cmd('/opt/google/chrome/google-chrome --profile-directory=Default --new-window'),
