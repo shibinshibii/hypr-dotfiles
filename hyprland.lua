@@ -164,7 +164,7 @@ hl.config({
 --             gesture_distance = 200,
 --             cancel_key = "escape",
 --             show_cursor = 1,
---             drag_drop_enable = 1, 
+--             drag_drop_enable = 1,
 --         },
 --     },
 -- })

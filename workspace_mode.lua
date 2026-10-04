@@ -1,7 +1,7 @@
-
 local modes = {}
 
 local TAG_PREFIX = "wsfloat_"
+local DWINDLE_TAG_PREFIX = "wsdwindle_"
 
 
 local function get_workspace_id(workspace)
@@ -17,16 +17,41 @@ local function get_tag(workspace_id)
     return TAG_PREFIX .. tostring(workspace_id)
 end
 
-local function notify(title, message)
-    hl.exec_cmd(
-        "notify-send -a 'Hyprland' '"
-        .. title
-        .. "' '"
-        .. message
-        .. "'"
-    )
+
+local function get_dwindle_tag(workspace_id)
+    return DWINDLE_TAG_PREFIX .. tostring(workspace_id)
 end
 
+
+local function get_workspace_selector(workspace)
+    if workspace.special then
+        return tostring(workspace.name)
+    end
+
+    return "name:" .. tostring(workspace.name)
+end
+
+
+local function set_workspace_layout(workspace, layout)
+    if not workspace then
+        return
+    end
+
+    local workspace_id = workspace.id
+
+    if not workspace_id then
+        return
+    end
+
+    hl.workspace_rule({
+        workspace = get_workspace_selector(workspace),
+        layout = layout,
+    })
+end
+
+
+-- IMPORTANT:
+-- These helpers must be defined BEFORE mark_workspace_dwindle()
 local function has_tag(window, wanted_tag)
     for _, tag in ipairs(window.tags or {}) do
         if tag == wanted_tag then
@@ -58,12 +83,56 @@ local function untag_window(window, tag)
 end
 
 
+local function mark_workspace_dwindle(workspace)
+    local workspace_id = workspace.id
+
+    if not workspace_id then
+        return
+    end
+
+    local tag = get_dwindle_tag(workspace_id)
+
+    for _, window in ipairs(hl.get_workspace_windows(workspace)) do
+        if not has_tag(window, tag) then
+            tag_window(window, tag)
+        end
+    end
+end
+
+
+local function unmark_workspace_dwindle(workspace)
+    local workspace_id = workspace.id
+
+    if not workspace_id then
+        return
+    end
+
+    local tag = get_dwindle_tag(workspace_id)
+
+    for _, window in ipairs(hl.get_workspace_windows(workspace)) do
+        if has_tag(window, tag) then
+            untag_window(window, tag)
+        end
+    end
+end
+
+
+local function notify(title, message)
+    hl.exec_cmd(
+        "notify-send -a 'Hyprland' '"
+        .. title
+        .. "' '"
+        .. message
+        .. "'"
+    )
+end
+
+
 local function make_floating(window, tag)
     if not window then
         return
     end
 
-    -- Don't touch fullscreen windows.
     if window.fullscreen and window.fullscreen ~= 0 then
         return
     end
@@ -89,7 +158,7 @@ local function make_tiled(window, tag)
         return
     end
 
-    -- Only undo windows that THIS module floated.
+    -- Only undo windows that this module floated.
     if not has_tag(window, tag) then
         return
     end
@@ -122,15 +191,12 @@ local function enable_workspace(workspace)
         make_floating(window, tag)
     end
 
-    -- hl.notification.create({
-    --     text = "Floating mode: ON  •  Workspace " .. tostring(workspace_id),
-    --     timeout = 1800,
-    -- })
-
     notify(
         "Floating Mode",
-        "Enabled on workspace ".. tostring(workspace_id))
+        "Enabled on workspace " .. tostring(workspace_id)
+    )
 end
+
 
 local function disable_workspace(workspace, opts)
     opts = opts or {}
@@ -151,11 +217,12 @@ local function disable_workspace(workspace, opts)
         make_tiled(window, tag)
     end
 
-     if opts.showNotification then
-        notify("Floating Mode", "Disabled on workspace " .. tostring(workspace_id))
+    if opts.showNotification then
+        notify(
+            "Floating Mode",
+            "Disabled on workspace " .. tostring(workspace_id)
+        )
     end
-
-
 end
 
 
@@ -173,14 +240,18 @@ local function toggle_workspace_floating()
     end
 
     if modes[workspace_id] then
-        disable_workspace(workspace, { showNotification = true })
+        disable_workspace(workspace, {
+            showNotification = true,
+        })
     else
         enable_workspace(workspace)
     end
 end
 
 
--- Toggle current workspace
+--
+-- Toggle floating mode
+--
 hl.bind(
     "SUPER + SHIFT + SPACE",
     toggle_workspace_floating,
@@ -190,6 +261,9 @@ hl.bind(
 )
 
 
+--
+-- Toggle scrolling <-> dwindle
+--
 hl.bind(
     "SUPER + SHIFT + T",
     function()
@@ -199,8 +273,10 @@ hl.bind(
             return
         end
 
-        -- Turn off our floating mode first.
-        disable_workspace(workspace,{ showNotification=false })
+        -- Disable our floating mode first.
+        disable_workspace(workspace, {
+            showNotification = false,
+        })
 
         local current_layout = workspace.tiled_layout
         local next_layout
@@ -211,14 +287,18 @@ hl.bind(
             next_layout = "dwindle"
         end
 
-        hl.workspace_rule({
-            workspace = "name:" .. tostring(workspace.name),
-            layout = next_layout,
-        })
+        -- Set the layout only once.
+        set_workspace_layout(workspace, next_layout)
 
-       notify(
-        "Layout",
-        "Switched to " .. next_layout
+        if next_layout == "dwindle" then
+            mark_workspace_dwindle(workspace)
+        else
+            unmark_workspace_dwindle(workspace)
+        end
+
+        notify(
+            "Layout",
+            "Switched to " .. next_layout
         )
     end,
     {
@@ -227,7 +307,9 @@ hl.bind(
 )
 
 
+--
 -- New windows opened while floating mode is enabled
+--
 hl.on("window.open", function(window)
     if not window or not window.workspace then
         return
@@ -245,7 +327,9 @@ hl.on("window.open", function(window)
 end)
 
 
+--
 -- Restore floating-mode state after config reload
+--
 for _, window in ipairs(hl.get_windows()) do
     for _, tag in ipairs(window.tags or {}) do
         local workspace_id = tag:match("^" .. TAG_PREFIX .. "(.+)$")
@@ -256,3 +340,30 @@ for _, window in ipairs(hl.get_windows()) do
         end
     end
 end
+
+
+--
+-- Restore per-workspace Dwindle state after config reload
+--
+hl.on("config.reloaded", function()
+    local restored = {}
+
+    for _, window in ipairs(hl.get_windows()) do
+        local workspace = window.workspace
+
+        if workspace and workspace.id then
+            local workspace_id = workspace.id
+            local dwindle_tag = get_dwindle_tag(workspace_id)
+
+            if has_tag(window, dwindle_tag)
+                and not restored[workspace_id] then
+
+                restored[workspace_id] = true
+
+                set_workspace_layout(workspace, "dwindle")
+            end
+        end
+    end
+
+
+end)
