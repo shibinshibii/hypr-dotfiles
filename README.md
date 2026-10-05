@@ -5,7 +5,7 @@ Welcome to my **Hyprland** configuration! This setup uses Lua as the primary con
 ## ✨ Features
 - **Lua-Driven Configuration**: Replaces the default `hyprland.conf` with a powerful, split Lua structure (`hyprland.lua`, `keybind.lua`, `windowrules.lua`, etc.).
 - **Dynamic Theming**: Integrated with the **Noctalia** theme manager for seamless, beautiful system-wide color palettes.
-- **Scrolling Layout**: Utilizes a smooth scrolling layout for intuitive window stacking.
+- **Dynamic Layouts**: Easily switch between **Scrolling** and **Dwindle** layouts per-workspace, or toggle an entire workspace into a Floating Mode.
 - **Mission Control & Expo**: Uses plugins like `hymission` and `hyprexpo` for workspace overviews.
 - **Advanced Screenshots**: Powered by `hyprcapture` and `satty` for region captures, window snapshots, and quick annotations.
 
@@ -44,6 +44,8 @@ The `SUPER` key is the primary modifier for most shortcuts.
 | `SUPER + Shift + Arrows` | Resize Active Window |
 | `SUPER + Ctrl + Shift + Arrows` | Move or Swap Window |
 | `Alt + Tab` | Cycle Windows |
+| `SUPER + Shift + Space` | Toggle Floating Mode for Current Workspace |
+| `SUPER + Shift + T` | Toggle Workspace Layout (Scrolling ↔ Dwindle) |
 
 ### 🌐 Workspaces & Overviews
 | Keybind | Action |
