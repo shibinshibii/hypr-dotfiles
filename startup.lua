@@ -20,7 +20,7 @@ local exec_once = {
     "gnome-keyring-daemon --start --components=secrets",
     "systemctl --user start --ignore-dependencies xdg-desktop-portal-hyprland.service xdg-desktop-portal.service",
 	"hyprpm reload",
-    -- "noctalia",
+    "noctalia",
     "caelestia shell -d",
     "sh -c 'sleep 3 && easyeffects --gapplication-service'",
     "wl-paste --type text --watch cliphist store",

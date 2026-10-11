@@ -8,13 +8,15 @@ Welcome to my **Hyprland** configuration! This setup uses Lua as the primary con
 - **Dynamic Layouts**: Easily switch between **Scrolling** and **Dwindle** layouts per-workspace, or toggle an entire workspace into a Floating Mode.
 - **Mission Control & Expo**: Uses plugins like `hymission` and `hyprexpo` for workspace overviews.
 - **Advanced Screenshots**: Powered by `hyprcapture` and `satty` for region captures, window snapshots, and quick annotations.
+- **Clipboard Management**: Seamless clipboard history using `cliphist` with background `wl-paste` watchers and Caelestia integration.
 
 ## 📦 Core Applications
 - **Terminal:** Kitty
-- **Web Browser:** Brave (primary) & Google Chrome
+- **Web Browser:** Brave Nightly (`brave-origin-nightly`, primary) & Google Chrome
 - **File Manager:** Thunar
 - **Code Editor:** VS Code (`code`)
-- **App Launcher / UI:** Noctalia panel & Caelestia launcher
+- **Clipboard Manager:** Caelestia (`cliphist` + `wl-paste`)
+- **App Launcher / UI:** Caelestia shell & launcher
 - **Screen Locker:** Caelestia shell
 - **Media Players:** MPV (video) & Quod Libet (music)
 
@@ -27,9 +29,10 @@ The `SUPER` key is the primary modifier for most shortcuts.
 | --- | --- |
 | `SUPER + Enter` | Open Kitty Terminal |
 | `SUPER + E` | Open Thunar File Manager |
-| `SUPER + B` | Open Brave Browser |
-| `SUPER + V` | Open VS Code |
-| `SUPER + D` | Toggle Noctalia App Launcher |
+| `SUPER + B` | Open Brave Nightly / Default Browser |
+| `SUPER + C` | Open Google Chrome |
+| `SUPER + D` | Open VS Code (`code`) |
+| `SUPER + V` | Open Clipboard History (`caelestia clipboard`) |
 | `SUPER + X` | Toggle Caelestia Launcher |
 | `SUPER + T` | Toggle Noctalia Settings |
 | `SUPER + L` | Lock Screen |
@@ -91,5 +94,5 @@ The configuration is modularized into easily digestible files inside `~/.config/
 To get the most out of this setup, ensure you have the following installed:
 * **Hyprland** (compiled with the Lua plugin or using a Lua wrapper).
 * Plugins: `hymission`, `hyprexpo`, `hyprcapture`.
-* Utilities: `kitty`, `thunar`, `playerctl`, `brightnessctl`, `wpctl` (WirePlumber), `jq`.
-* Theming tools: Noctalia and Caelestia packages (if applicable to your distro/setup).
+* Utilities: `kitty`, `thunar`, `cliphist`, `wl-clipboard` (for `wl-paste`), `playerctl`, `brightnessctl`, `wpctl` (WirePlumber), `jq`.
+* Desktop Shell & Theming: Caelestia packages and Noctalia.
