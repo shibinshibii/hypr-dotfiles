@@ -9,7 +9,7 @@ local CHROME = "google-chrome-stable"
 local KEY = {
 	TERMINAL = ("%s + RETURN"):format(mainMod),
 	EXPLORER = ("%s + E"):format(mainMod),
-	EDITOR = ("%s + V"):format(mainMod),
+	EDITOR = ("%s + D"):format(mainMod),
 	BROWSER = ("%s + B"):format(mainMod),
 	CHROME = ("%s + C"):format(mainMod),
 	LAUNCHER = ("%s + D"):format(mainMod),
@@ -61,6 +61,7 @@ local KEY = {
 	MOUSE_DRAG = ("%s + mouse:272"):format(mainMod),
 	MOUSE_RESIZE = ("%s + mouse:273"):format(mainMod),
 	RESIZE_MODE = ("%s + X"):format(mainMod),
+    CLIPBOARD = ("%s + V"):format(mainMod),
 }
 
 -- 1. Applications
@@ -76,6 +77,7 @@ hl.bind(
     { description = "Toggle Caelestia launcher" }
 )
 hl.bind(KEY.LOCK, hl.dsp.exec_cmd("caelestia shell lock lock"), { description = "Lock screen" })
+hl.bind(KEY.CLIPBOARD, hl.dsp.exec_cmd("caelestia clipboard"), { description = "Clipboard history"})
 -- Physical power button → lock
 hl.bind(
     "XF86PowerOff",
