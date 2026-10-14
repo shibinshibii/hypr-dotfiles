@@ -277,6 +277,10 @@ if hl.plugin.hymission ~= nil then
     hl.bind("SUPER + Y", function()
     hl.plugin.hymission.toggle("forecall")
 end)
+      -- Middle click: Mission Control for the current workspace
+    hl.bind("mouse:274", function()
+        hl.plugin.hymission.toggle("onlycurrentworkspace")
+    end, { description = "Mission Control (Middle Click)" })
 end
 hl.bind(
     "SUPER + S",

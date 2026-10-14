@@ -40,7 +40,7 @@ hl.plugin.hymission.gesture({
 
 -- Hymission gestures
 if hl.plugin.hymission ~= nil then
-	
+
     -- 4-finger vertical swipe: Mission Control
     hl.plugin.hymission.gesture({
         fingers = 4,
